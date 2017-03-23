@@ -231,4 +231,7 @@ nnoremap <C-H> <C-W><C-H>
 " more natural split
 set splitbelow
 set splitright
+" get NERDTree working on linux
+let g:NERDTreeDirArrows=0
+set encoding=utf-8
 
