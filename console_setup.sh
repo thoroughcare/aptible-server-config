@@ -7,7 +7,7 @@ echo "gem 'pry-awesome_print'" >> /app/Gemfile
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 mkdir ~/.vim/colors/
 wget https://raw.githubusercontent.com/tomasr/molokai/master/colors/molokai.vim -O ~/.vim/colors/molokai.vim
-wget https://gist.githubusercontent.com/lacostenycoder/779a78eb32ba7607440eb9bdaf4dfb81/raw/a8b9aeb57788434d82b5068ee002c8433c66d38e/.vimrc-rails -O ~/.vimrc
+wget https://raw.githubusercontent.com/thoroughcare/aptible-server-config/master/vimrc-O ~/.vimrc
 # install vim plugins before patching ruby syntax
 vim --cmd '' \
  -c 'PluginInstall' \
