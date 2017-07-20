@@ -12,7 +12,7 @@ else
 fi
 
 while true; do
-    read -p "Do you wish to install dev extras? (vim, tmux, less)" yn
+    read -p "Do you wish to install dev extras? (vim, tmux, less, dropbox_uploader)" yn
     case $yn in
         [Yy]* ) bash <(curl -s https://raw.githubusercontent.com/thoroughcare/aptible-server-config/master/install_extras.sh); break;;
         [Nn]* ) echo "skipping extras \n"; break;;
