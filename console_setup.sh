@@ -10,7 +10,7 @@ if (( $has_awesome > 0 )); then
   echo "awesome_print installed already"
 else
   pryrails=$(cat Gemfile  | grep pry-rails | uniq);	
-  pryawesome=$(cat Gemfile | grep pry-awesome_print | uniq);
+  pryawesome=$(cat Gemfile | grep pry-awesome_print | uniq | tail -n1);
 
   echo $pryrails >> /app/Gemfile
   echo $pryawesome >> /app/Gemfile
