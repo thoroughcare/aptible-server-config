@@ -1,16 +1,3 @@
-
-has_awesome=$(tail Gemfile -n 1 | grep awesome | wc -l)
-
-if (( $has_awesome > 0 )); then
-  echo "awesome_print installed already"
-else
-  echo "gem 'pry-rails'" >> /app/Gemfile
-  echo "gem 'pry-awesome_print'" >> /app/Gemfile
-  echo "gem 'awesome_print'" >> /app/gemfile
-  bundle install
-  clear
-fi
-
 while true; do
     read -p "Do you wish to install dev extras? (vim, tmux, less, dropbox_uploader)" yn
     case $yn in
