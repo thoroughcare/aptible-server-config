@@ -1,4 +1,9 @@
-
+if test -e "config/initializers/pry.rb"; then
+    echo 'has pry'
+else
+    curl -o config/initializers/pry.rb https://raw.githubusercontent.com/thoroughcare/aptible-server-config/master/pry.rb
+fi
+exit;
 has_awesome=$(tail Gemfile -n 1 | grep awesome | wc -l)
 
 if (( $has_awesome > 0 )); then
