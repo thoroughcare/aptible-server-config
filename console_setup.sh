@@ -1,4 +1,4 @@
-if test -e "config/initializers/pry.rb"; then
+if test -e "/app/config/initializers/pry.rb"; then
     echo 'has pry'
 else
     curl -o config/initializers/pry.rb https://raw.githubusercontent.com/thoroughcare/aptible-server-config/master/pry.rb
