@@ -14,6 +14,7 @@ apt-get install -y --force-yes --no-install-recommends \
   build-essential \
   cron \
   libjemalloc-dev \
-  less
+  less \
+  vim
 
 CMD [ "irb" ]
