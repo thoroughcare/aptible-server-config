@@ -12,3 +12,10 @@ tc-staging:
   container_count:
     down: 0
     up: 1
+tc-scale:
+  container_size:
+    down: 512
+    up: 1024
+  container_count:
+    down: 0
+    up: 1
