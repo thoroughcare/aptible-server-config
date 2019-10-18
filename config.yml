@@ -1,0 +1,14 @@
+tc-test:
+  container_size:
+    down: 512
+    up: 2048
+  container_count:
+    down: 0
+    up: 1
+tc-staging:
+  container_size:
+    down: 512
+    up: 1024
+  container_count:
+    down: 0
+    up: 1
