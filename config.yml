@@ -1,3 +1,18 @@
+thoroughcare-app:
+  web:
+    container_size:
+      down: 1024
+      up: 4096
+    container_count:
+      down: 1
+      up: 4
+  worker:
+    container_size:
+      down: 1024
+      up: 4096
+    container_count:
+      down: 1
+      up: 1
 tc-test:
   web:
     container_size:
