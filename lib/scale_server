@@ -1,0 +1,54 @@
+#!/usr/local/bin/ruby
+require 'yaml'
+require 'open-uri'
+require_relative 'slack_notifier'
+require_relative 'grafana_notifier'
+
+APP_NAME=ARGV[0]
+DIRECTION=ARGV[1].downcase
+
+CONFIG = YAML.load(open('config.yml'))
+
+system("aptible login --email=$ROBOT_EMAIL --password=$ROBOT_PASS --otp-token=$(oathtool -b --totp $ROBOT_2FA_TOKEN)")
+
+def scale_dbs
+  container_size = DIRECTION == 'down' ? 512 : 1024
+  case APP_NAME
+  when 'tc-test'
+    cmd_1 = "aptible db:restart tc_test --container-size #{container_size} --environment thoroughcare-test"
+    cmd_2 = "aptible db:restart tc-test-elastic --container-size #{container_size} --environment thoroughcare-test"
+  when 'tc-staging'
+    cmd_1 = "aptible db:restart tc-staging --container-size #{container_size} --environment thoroughcare-staging"
+    cmd_2= "aptible db:restart tc-staging-elastic --container-size #{container_size} --environment thoroughcare-staging"
+  when 'tc-scale'
+    cmd_1 = "aptible db:restart tc_scale --container-size #{container_size} --environment thoroughcare-scale"
+    cmd_2 = "aptible db:restart tc-scale-elastic --container-size #{container_size} --environment thoroughcare-scale"
+  end
+  system(cmd_1) && system(cmd_2)
+end
+
+# aptible apps:scale SERVICE [--container-count COUNT] [--container-size SIZE_MB]
+def scale_server
+  app = CONFIG[APP_NAME]
+  puts "Scaling #{DIRECTION} #{APP_NAME} #{app}"
+  cmd_1 = "aptible apps:scale --app #{APP_NAME} web --container-count #{app['web']['container_count'][DIRECTION]} --container-size #{app['web']['container_size'][DIRECTION]}"
+  cmd_2 = "aptible apps:scale --app #{APP_NAME} worker --container-count #{app['worker']['container_count'][DIRECTION]} --container-size #{app['worker']['container_size'][DIRECTION]}"
+  system(cmd_1) && system(cmd_2)
+end
+
+def send_slack_msg(msg)
+  SlackNotifier.new(text: "#{APP_NAME} container #{msg} !", channel: 'server_status').notify
+  GrafanaNotifier.new(text: "Scale #{DIRECTION}").notify
+end
+
+if APP_NAME == 'thoroughcare-app' #production
+  if scale_server
+    send_slack_msg 'successfully scaled'
+  else
+    send_slack_msg 'did not scale'
+  end
+elsif scale_server && scale_dbs
+  send_slack_msg 'successfully scaled'
+else
+  send_slack_msg 'did not scale'
+end

@@ -1,20 +1,21 @@
 # Dockerfile
-FROM ruby:2.3
+FROM thoroughcare/ruby-2.3
 
-# Node and Yarn Installation
-RUN \
-curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-apt-get update && \
-apt-get install -y --force-yes --no-install-recommends \
-  nodejs \
-  yarn \
-  apt-utils \
-  build-essential \
-  cron \
-  libjemalloc-dev \
-  less \
-  vim
+# Aptible cli installation
+RUN gem install aptible-cli
+RUN apt-get update && apt-get install -y oathtool gnupg2
 
-CMD [ "irb" ]
+# Crontab installation
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.9/supercronic-linux-amd64 \
+    SUPERCRONIC=supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=5ddf8ea26b56d4a7ff6faecdd8966610d5cb9d85
+
+RUN curl -fsSLO "$SUPERCRONIC_URL" \
+ && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+ && chmod +x "$SUPERCRONIC" \
+ && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+ && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+
+WORKDIR /app
+
+ADD . /app

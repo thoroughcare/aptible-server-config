@@ -1,0 +1,1 @@
+automations: bash startup.sh

@@ -1,0 +1,11 @@
+# Run every hour
+# Schedule time is in UTC, 07:00 UTC-5 = 1200 UTC+0
+# We run this job at 7am EST, after business hours, monday-friday
+0 10 * * 1,2,3,4,5 lib/scale_server thoroughcare-app up
+0 10 * * 1,2,3,4,5 lib/scale_server tc-staging up
+0 10 * * 1,2,3,4,5 lib/scale_server tc-test up
+# Schedule time is in UTC, 19:00 UTC-5 = 00:00 UTC+0
+# We run this job at 7pm EST summer; 6pm winter, after business hours.
+0 2 * * 2,3,4,5,6 lib/scale_server thoroughcare-app down
+0 2 * * 2,3,4,5,6 lib/scale_server tc-staging down
+0 2 * * 2,3,4,5,6 lib/scale_server tc-test down
