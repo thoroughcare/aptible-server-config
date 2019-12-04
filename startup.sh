@@ -1,2 +1,2 @@
 #! /bin/bash
-supercronic ./crontab &
+supercronic ./crontab
