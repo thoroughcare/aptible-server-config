@@ -49,6 +49,9 @@ RUN mkdir -p /vault/logs && \
 
 VOLUME /vault/logs
 VOLUME /vault/file
+
+ADD vault/local.hcl /vault/config/
+
 EXPOSE 8200
 
 WORKDIR /app
