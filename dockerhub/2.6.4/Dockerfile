@@ -13,9 +13,11 @@ apt-get install -y --force-yes --no-install-recommends \
   apt-utils \
   build-essential \
   cron \
-  libjemalloc-dev \
+  libjemalloc2 \
   less \
   vim
+
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 RUN apt-get update
 RUN apt-get install -y xfonts-75dpi xfonts-base gvfs colord glew-utils libvisual-0.4-plugins gstreamer1.0-tools opus-tools qt5-image-formats-plugins qtwayland5 qt5-qmltooling-plugins librsvg2-bin lm-sensors
